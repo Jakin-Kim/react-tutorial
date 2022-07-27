@@ -1,17 +1,36 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
 
+// Square component renders a single <button>.
 class Square extends React.Component {
+  constructor(props) {
+    super(props); // 부모 클래스의 생성자(constructor)에 넘겨줄 매개변수가 있는 경우, super()를 써서 부모 클래스의 생성자를 매개변수로 넘겨준다.    
+    this.state = { // React components can have 'state(got clicked and filled it with an "X" mark)' by setting 'this.state' in their constructors.
+      value: null,
+    }; 
+  }
+
   render() {
     return (
-      <button className="square">
-        {/* TODO */}
+      <button 
+        className="square"
+        onClick={() => this.setState({value: 'X'})}
+        // By calling 'this.setState' from an 'onClick' handler in the Square’s 'render' method, 
+        // we tell React to re-render that Square whenever its <button> is clicked.
+      >
+        {/* Receiving data from parent component */}
+        {this.state.value}
       </button>
     );
   }
 }
 
+
+// Board component renders 9 squares.
 class Board extends React.Component {
   renderSquare(i) {
-    return <Square />;
+    return <Square value={i} />; // passing props to child component
   }
 
   render() {
@@ -40,6 +59,9 @@ class Board extends React.Component {
   }
 }
 
+
+
+// Game component renders a board with placeholder values.
 class Game extends React.Component {
   render() {
     return (
@@ -60,3 +82,5 @@ class Game extends React.Component {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Game />);
+
+
