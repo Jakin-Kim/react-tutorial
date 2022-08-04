@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 // Square component renders a single <button>.
-class Square extends React.Component { // As of lifting state up, Square components are now 'controlled components'.
+function Square(props) { // As of lifting state up, Square components are now 'controlled components'.
   // constructor(props) {
   //   super(props); // 부모 클래스의 생성자(constructor)에 넘겨줄 매개변수가 있는 경우, super()를 써서 부모 클래스의 생성자를 매개변수로 넘겨준다.    
   //   this.state = { // React components can have 'state(got clicked and filled it with an "X" mark)' by setting 'this.state' in their constructors.
@@ -11,20 +11,18 @@ class Square extends React.Component { // As of lifting state up, Square compone
   //   }; 
   // }
 
-  render() {
-    return (
-      <button 
-        className="square"
-        onClick={() => this.props.onClick()}
-        // By calling 'this.setState' from an 'onClick' handler in the Square’s 'render()' method, 
-        // we tell React to re-render that Square whenever its <button> is clicked.
-      >
-        {/* Receiving data from parent component */}
-        {this.props.value}
-        
-      </button>
-    );
-  }
+  return (
+    <button 
+      className="square"
+      onClick={props.onClick}
+      // By calling 'this.setState' from an 'onClick' handler in the Square’s 'render()' method, 
+      // we tell React to re-render that Square whenever its <button> is clicked.
+    >
+      {/* Receiving data from parent component */}
+      {props.value}
+      
+    </button>
+  );
 }
 
 
