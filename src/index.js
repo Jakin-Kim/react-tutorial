@@ -37,6 +37,10 @@ class Board extends React.Component {
     };
   }
 
+  // Immutability using 'slice' method
+  // 1. Complex Features Become Simple
+  // 2. Detecting Changes
+  // 3. Determing When to Re-Render in React
   handleClick(i) {
     const squares = this.state.squares.slice(); // copy of existing 'squares' array
     squares[i] = 'X';
