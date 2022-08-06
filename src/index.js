@@ -70,6 +70,7 @@ class Game extends React.Component {
       history: [{
         squares: Array(9).fill(null),
       }],
+      stepNumber: 0, // 현재 사용자에게 표시되는 이동을 반영
       xIsNext: true,
     }
   }
@@ -78,21 +79,31 @@ class Game extends React.Component {
     // 1. Complex Features Become Simple
     // 2. Detecting Changes
     // 3. Determing When to Re-Render in React
-    handleClick(i) {
-      const history = this.state.history;
-      const current = history[history.length - 1];
-      const squares = this.state.squares.slice(); // copy of existing 'squares' array
-      if (calculateWinner(squares) || squares[i]) { // Ignore a click if someone has won the game or if a Square is already filled.
-        return;
-      }
-      squares[i] = this.state.xIsNext ? 'X' : 'O';
-      this.setState({
-        history: history.concat([{
-          squares: squares,
-        }]),
-        xIsNext: !this.state.xIsNext
-      });
+  handleClick(i) {
+    // 아래 history는 '시간을 되돌려' 그 시점에서 새로운 움직임을 보이면, 
+    // 지금은 올바르지 않은 '미래'의 기록을 모두 버리는 것을 보장한다.
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const current = history[this.state.stepNumber]; // 마지막 이동을 렌더링하는 대신 'stepNumber'에 맞는 현재 선택된 이동을 렌더링한다.
+    const squares = this.state.squares.slice(); // copy of existing 'squares' array
+    if (calculateWinner(squares) || squares[i]) { // Ignore a click if someone has won the game or if a Square is already filled.
+      return;
     }
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      history: history.concat([{
+        squares: squares,
+      }]),
+      stepNumber: history.length,
+      xIsNext: !this.state.xIsNext
+    });
+  }
+
+  jumpTo(step) { // state의 history 프로퍼티를 업데이트 하지 않았다!
+    this.setState({
+      stepNumber: step, // 현재 사용자에게 표시되는 이동을 반영
+      xIsNext: (step % 2) === 0,
+    });
+  }
 
   render() {
     const history = this.state.history;
