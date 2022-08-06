@@ -36,10 +36,10 @@ class Board extends React.Component {
     };
   }
 
-  // Immutability using 'slice' method
-  // 1. Complex Features Become Simple
-  // 2. Detecting Changes
-  // 3. Determing When to Re-Render in React
+    // Immutability using 'slice' method
+    // 1. Complex Features Become Simple
+    // 2. Detecting Changes
+    // 3. Determing When to Re-Render in React
   handleClick(i) {
     const squares = this.state.squares.slice(); // copy of existing 'squares' array
     if (calculateWinner(squares) || squares[i]) { // Ignore a click if someone has won the game or if a Square is already filled.
@@ -96,6 +96,15 @@ class Board extends React.Component {
 
 // Game component renders a board with placeholder values.
 class Game extends React.Component {
+  constructor(props) { // Game 컴포넌트의 생성자 안에 초기 state 설정
+    super(props);
+    this.state = {
+      history: [{
+        squares: Array(9).fill(null),
+      }],
+      xIsNext: true,
+    }
+  }
   render() {
     return (
       <div className="game">
